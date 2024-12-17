@@ -1,0 +1,87 @@
+# backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: 01791689522/rewardsapi-dev:1.0.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: mongodb://admin:password@mongodb-service:27017
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "3000"
+            - name: API_BASE_URL
+              value: http://localhost:5045
+            - name: CLIENT_BASE_URL
+              value: http://localhost:5046
+            - name: SERIAL_API
+              value: http://202.91.42.204:3000/api/v1
+            - name: MONGO_HOST
+              value: mongodb-service
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_DB_NAME
+              value: isp-benefit
+            - name: MONGO_USER
+              value: admin
+            - name: MONGO_PASS
+              value: password
+            - name: MONGO1
+              value: mongo1
+            - name: MONGO2
+              value: mongo2
+            - name: MONGO3
+              value: mongo3
+            - name: MONGO_PORT1
+              value: "27017"
+            - name: MONGO_PORT2
+              value: "27018"
+            - name: MONGO_PORT3
+              value: "27019"
+
+              # JWT
+            - name: JWT_SECRET
+              value: secret
+            - name: JWT_EXPIRES_IN
+              value: 1d
+            - name: JWT_ALGORITHM
+              value: HS256
+
+              # REDIS
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PORT
+              value: "6379"
+
+              # MAIL
+            - name: MAIL_HOST
+              value: smtp.zoho.com
+            - name: MAIL_PORT
+              value: "465"
+            - name: MAIL_USER
+              value: notifications@excelbd.com
+            - name: MAIL_PASS
+              value: ETL&aliV$P@783
+            - name: MAIL_FROM
+              value: notifications@excelbd.com
+
+              # MULTER
+            - name: MAX_FILE_SIZE
+              value: "1000000"
+            - name: MULTER_DEST
+              value: ./uploads
